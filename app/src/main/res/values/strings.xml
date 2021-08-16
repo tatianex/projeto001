@@ -6,4 +6,5 @@
     <string name="email_hint">nome@exemplo.com.br</string>
     <string name="email_text">Informe o seu email</string>
     <string name="password_text">Informe sua senha</string>
+    <string name="product_image">product</string>
 </resources>
