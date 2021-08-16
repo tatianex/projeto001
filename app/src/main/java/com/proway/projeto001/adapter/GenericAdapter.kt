@@ -10,11 +10,11 @@ import com.proway.projeto001.model.Product
 import com.proway.projeto001.model.TipoLista
 import com.proway.projeto001.model.User
 
-class GenericAdapter<T>(private val listOf: MutableList<T>, private val type: TipoLista):
+class GenericAdapter<T>(private val listOf: List<T>, private val type: TipoLista):
     RecyclerView.Adapter<GenericViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder {
-        val viewProduct = LayoutInflater.from(parent.context).inflate(R.layout.activity_product_detail, parent, false)
+        val viewProduct = LayoutInflater.from(parent.context).inflate(R.layout.list_product_recycler, parent, false)
         //val viewUser = LayoutInflater.from(parent.context).inflate(R.layout.fragment_detail_user, parent, false)
         return GenericViewHolder(viewProduct)
     }
@@ -22,6 +22,9 @@ class GenericAdapter<T>(private val listOf: MutableList<T>, private val type: Ti
     override fun onBindViewHolder(holder: GenericViewHolder, position: Int) {
         listOf[position].apply {
             holder.bind(this)
+            holder.itemView.setOnClickListener{
+
+            }
         }
     }
 
@@ -45,7 +48,5 @@ class GenericViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 param2TextView.text = model.password
             }
         }
-
     }
-
 }

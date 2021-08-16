@@ -4,20 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.proway.projeto001.R
+import com.proway.projeto001.adapter.GenericAdapter
 import com.proway.projeto001.endpoint.RetrofitBuilder
 import com.proway.projeto001.model.Product
+import com.proway.projeto001.model.TipoLista
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class ProductListFragment : Fragment(), Callback<Product> {
+class ProductListFragment : Fragment(), Callback<List<Product>> {
 
-    lateinit var titleTextView: TextView
-    lateinit var priceTextView: TextView
+    lateinit var recyclerView: RecyclerView
 
     companion object {
         fun newInstance() = ProductListFragment()
@@ -36,27 +40,28 @@ class ProductListFragment : Fragment(), Callback<Product> {
         super.onViewCreated(view, savedInstanceState)
 
         loadComponents(view)
-        loadProduct()
+        loadProducts()
     }
 
-    private fun loadProduct() {
-        val callProduct = RetrofitBuilder.getProductServiceInstance().getProduct()
+    private fun loadProducts() {
+        val callProduct = RetrofitBuilder.getProductServiceInstance().getAllProducts()
         callProduct.enqueue(this)
     }
 
     private fun loadComponents(view: View) {
-        titleTextView = view.findViewById(R.id.titleTextView)
-        priceTextView = view.findViewById(R.id.priceTextView)
+
+        recyclerView = view.findViewById(R.id.productRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun onResponse(call: Call<Product>, response: Response<Product>) {
+    override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
         response.body()?.apply {
-            titleTextView.text = title
-            priceTextView.text = price.toString()
+            recyclerView.adapter = GenericAdapter(this, TipoLista.PRODUCTS)
         }
     }
 
-    override fun onFailure(call: Call<Product>, t: Throwable) {
-        //Toast.makeText(this, "Sorry we could not find the product", Toast.LENGTH_LONG).show()
+    override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+        println("Sorry, we could not find any product.")
     }
+
 }

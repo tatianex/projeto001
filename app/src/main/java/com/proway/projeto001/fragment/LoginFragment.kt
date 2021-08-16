@@ -34,6 +34,7 @@ class LoginFragment : Fragment() {
         view.findViewById<Button>(R.id.buttonLogin).apply{
             setOnClickListener {
                 activityFather?.replaceFragment(ProductListFragment())
+                println("I am here!")
             }
         }
     }
