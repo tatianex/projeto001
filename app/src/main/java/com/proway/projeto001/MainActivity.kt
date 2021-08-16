@@ -1,9 +1,12 @@
 package com.proway.projeto001
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.proway.projeto001.`interface`.ClickableItem
 import com.proway.projeto001.fragment.LoginFragment
+import com.proway.projeto001.model.Product
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,4 +23,5 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.container, fragment)
             .commitNow()
     }
+
 }

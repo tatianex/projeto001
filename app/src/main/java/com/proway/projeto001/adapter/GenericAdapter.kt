@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.proway.projeto001.R
+import com.proway.projeto001.`interface`.ClickableItem
 import com.proway.projeto001.model.Product
 import com.proway.projeto001.model.TipoLista
 import com.proway.projeto001.model.User
 
-class GenericAdapter<T>(private val listOf: List<T>, private val type: TipoLista):
+class GenericAdapter<T>(private val listOf: List<T>, private val type: TipoLista, val onClickable: ClickableItem):
     RecyclerView.Adapter<GenericViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder {
@@ -23,7 +24,7 @@ class GenericAdapter<T>(private val listOf: List<T>, private val type: TipoLista
         listOf[position].apply {
             holder.bind(this)
             holder.itemView.setOnClickListener{
-
+                onClickable.onClickDetail(this as Product)
             }
         }
     }

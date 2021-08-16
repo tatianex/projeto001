@@ -1,5 +1,6 @@
 package com.proway.projeto001.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.proway.projeto001.DetailProductActivity
+import com.proway.projeto001.MainActivity
 import com.proway.projeto001.R
+import com.proway.projeto001.`interface`.ClickableItem
 import com.proway.projeto001.adapter.GenericAdapter
 import com.proway.projeto001.endpoint.RetrofitBuilder
 import com.proway.projeto001.model.Product
@@ -19,7 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ProductListFragment : Fragment(), Callback<List<Product>> {
+class ProductListFragment : Fragment(), Callback<List<Product>>, ClickableItem {
 
     lateinit var recyclerView: RecyclerView
 
@@ -55,8 +59,10 @@ class ProductListFragment : Fragment(), Callback<List<Product>> {
     }
 
     override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
-        response.body()?.apply {
-            recyclerView.adapter = GenericAdapter(this, TipoLista.PRODUCTS)
+        var activityFather = requireActivity() as? MainActivity
+
+        response.body()?.let {
+            recyclerView.adapter = GenericAdapter(it, TipoLista.PRODUCTS, this)
         }
     }
 
@@ -64,4 +70,9 @@ class ProductListFragment : Fragment(), Callback<List<Product>> {
         println("Sorry, we could not find any product.")
     }
 
+    override fun onClickDetail(product: Product) {
+        val intentProduct = Intent(activity?.applicationContext, DetailProductActivity::class.java)
+        intentProduct.putExtra("id", product.id)
+        startActivity(intentProduct)
+    }
 }
