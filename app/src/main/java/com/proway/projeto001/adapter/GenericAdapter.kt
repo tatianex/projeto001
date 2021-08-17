@@ -3,8 +3,10 @@ package com.proway.projeto001.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.proway.projeto001.R
 import com.proway.projeto001.`interface`.ClickableItem
 import com.proway.projeto001.model.Product
@@ -36,6 +38,7 @@ class GenericViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     private val param1TextView: TextView = itemView.findViewById(R.id.titleTextView)
     private val param2TextView: TextView = itemView.findViewById(R.id.priceTextView)
+    private val param3: ImageView = itemView.findViewById(R.id.productImageView)
 
     fun <T> bind(model: T) {
 
@@ -43,6 +46,12 @@ class GenericViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             is Product -> {
                 param1TextView.text = model.title
                 param2TextView.text = model.price.toString()
+
+                Glide.with(itemView.context)
+                    .load(model.image)
+                    .placeholder(R.drawable.ic_baseline_person_24)
+                    .into(param3)
+
             }
             is User -> {
                 param1TextView.text = model.email

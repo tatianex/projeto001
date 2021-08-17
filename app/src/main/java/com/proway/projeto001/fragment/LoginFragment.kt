@@ -33,7 +33,7 @@ class LoginFragment : Fragment() {
 
         view.findViewById<Button>(R.id.buttonLogin).apply{
             setOnClickListener {
-                activityFather?.replaceFragment(ProductListFragment())
+                activityFather?.replaceFragment(ProductListFragment.newInstance())
                 println("I am here!")
             }
         }
